@@ -1,0 +1,25 @@
+---
+title: "euros-data-2"
+author: "MarcoT"
+date: "6/16/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+```{r}
+y <- read_csv("birthdates.csv", col_types = cols())
+
+y %>% 
+  mutate(date = parse_date(str_sub(value, 2, 11))) %>% 
+  mutate(raw_month = months(date)) %>% 
+  mutate(month = parse_factor(raw_month, levels = month.name)) %>% 
+  group_by(month) %>% 
+  summarize(total = n())
+
+```
+
